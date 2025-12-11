@@ -47,10 +47,28 @@ class KomorebiServer():
         return KomorebiServer.instance
 
 
+from fastapi.middleware.cors import CORSMiddleware
 
 server = KomorebiServer()
 app = FastAPI()
 # print(server.game_manager.list_games())
+
+
+
+# origins = [
+#     "http://localhost",
+#     "http://localhost:8080",
+#     "https://steamloopback.host"
+# ]
+# 
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=origins,
+#     allow_origin_regex=r"http://127.0.0.1:[0-9]*",
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+#     allow_credentials=True
+# )
 
 
 # @app.put("/login")
@@ -66,7 +84,7 @@ def read_root():
 def list_game():
     games = server.game_manager.list_games()
     return {
-        "games": [game.toJSON() for game in games]
+        "games": [game.to_json() for game in games]
     }
  
 @app.get("/download/{id}")
@@ -77,7 +95,7 @@ def download(id: str, response: Response):
         response.status_code = status.HTTP_204_NO_CONTENT
         return {}
     else:
-        zip_file = game.root / f"{game.config.name}.zip"
+        zip_file = game.root / f"{game.name}.zip"
         if zip_file.exists() and zip_file.is_file():
             print(f"Zip file found at: {zip_file}")
             return FileResponse(path=zip_file)
@@ -85,15 +103,45 @@ def download(id: str, response: Response):
             print("Making archive: ")
             # zip_file = make_archive(game.root / game.config.name, "zip", game.root)
             # but the zip file in the same game folder for now
-            zip_file = create_zip(dest=game.root / f"{game.config.name}.zip", folder_to_zip=game.root)
-
+            zip_file = create_zip(dest=game.root / f"{game.name}.zip", folder_to_zip=game.root)
             print(f"Archive created: {zip_file.as_posix()}")
             return FileResponse(path=zip_file.as_posix())
 
 
+@app.get("/game/{id}/hero")
+def get_hero(id: str, response: Response):
+    game = server.game_manager.get_game(id)
+    if game is None or game.assets is None:
+        response.status_code = status.HTTP_204_NO_CONTENT
+        return
+    return FileResponse(game.assets.hero_path.as_posix())
 
+@app.get("/game/{id}/capsule")
+def get_capsule(id: str, response: Response):
+    game = server.game_manager.get_game(id)
+    if game is None or game.assets is None:
+        response.status_code = status.HTTP_204_NO_CONTENT
+        return
+    pass
 
+    return FileResponse(game.assets.capsule_path.as_posix())
 
+@app.get("/game/{id}/logo")
+def get_logo(id: str, response: Response):
+    game = server.game_manager.get_game(id)
+    if game is None or game.assets is None:
+        response.status_code = status.HTTP_204_NO_CONTENT
+        return
+    return FileResponse(game.assets.logo_path.as_posix())
+
+@app.get("/game/{id}/icon")
+def get_icon(id: str, response: Response):
+    game = server.game_manager.get_game(id)
+    if game is None or game.assets is None:
+        response.status_code = status.HTTP_204_NO_CONTENT
+        return
+
+    return FileResponse(game.assets.icon_path.as_posix())
 
 
 

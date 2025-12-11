@@ -1,10 +1,11 @@
 from typing import Any, Dict, Literal, NewType, Optional
-import requests 
 from pathlib import Path
 from dataclasses import dataclass
-from steam.client import SteamClient
 from pprint import pprint
 import re
+from typing import TypedDict, Required, NotRequired
+from steam.client import SteamClient
+import requests
 # from .steam_types import URL
 
 URL = NewType("URL", str)
@@ -18,44 +19,72 @@ class GameID():
 class StoreResults():
     items: list[GameID]
 
-@dataclass
-class OSData():
-    osarch: Optional[Literal["32", "64"]] = None
-    oslist: Optional[Literal["windows"]] = None
+#Fuck python typing
+#----------------------------CONFIG------------------------------------------
+class OSData(TypedDict):
+    osarch: NotRequired[Literal["32", "64"]]
+    oslist: NotRequired[Literal["windows"]]
 
-@dataclass 
-class LaunchOptions():
+class LaunchOptions(TypedDict):
     executable: str
     type: Literal["default", "option1"] # whatever that means
-    arguments: Optional[str] = None # launch_options
-    description: Optional[str] = None
-    workingdir: Optional[str] = None
-    config: Optional[OSData] = None
+    arguments: NotRequired[str]
+    description: NotRequired[str]
+    workingdir: NotRequired[str]
+    config: NotRequired[OSData]
 
-
-@dataclass 
-class ExecutableMetadata():
+class GameLaunchConfig(TypedDict):
     installdir: str
-    launch: list[LaunchOptions]
+    launch: dict[str, LaunchOptions] # key are just number labelled as str '0' '1' etc
     depots: dict[Any, Any] #technically can be used to install dep
+#-------------------------------------------------------------------------
+
+#----------------------------Common---------------------------------------
+class LanguageSpecificImage(TypedDict):
+    english: str
+
+class ImageAsset(TypedDict):
+    image: LanguageSpecificImage
+    image2x: LanguageSpecificImage
+
+class ImageAssets(TypedDict):
+    library_capsule: ImageAsset
+    library_hero: ImageAsset
+    library_logo: ImageAsset
 
 
-def make_launch_options(launch: Dict[str, Any]):
-    config = launch.get("config")
-    return LaunchOptions(
-            launch["executable"],
-            launch["type"],
-            launch.get("arguments"),
-            launch.get("description"),
-            launch.get("workingdir"),
-            OSData(config.get("osarch"), config.get("oslist")) if config else None
-    )
+class Common(TypedDict):
+    clienticon: str
+    gameid: int
+    icon: str
+    library_assets_full: ImageAssets
+    store_asset_mtime: str
 
-def make_executable_metadata(product_info: Dict[str, Any]):
-    config = product_info["config"]
-    installdir = config["installdir"]
-    launch = [make_launch_options(opt) for opt in config["launch"].values()]
-    return ExecutableMetadata(installdir, launch, product_info["depots"])
+class GameInfo(TypedDict):
+    common: Common
+    config: GameLaunchConfig
+    appid: str
+
+
+
+
+
+# def make_launch_options(launch: Dict[str, Any]):
+#     config = launch.get("config")
+#     return LaunchOptions(
+#             launch["executable"],
+#             launch["type"],
+#             launch.get("arguments"),
+#             launch.get("description"),
+#             launch.get("workingdir"),
+#             OSData(config.get("osarch"), config.get("oslist")) if config else None
+#     )
+# 
+# def make_executable_metadata(product_info: Dict[str, Any]):
+#     config = product_info["config"]
+#     installdir = config["installdir"]
+#     launch = [make_launch_options(opt) for opt in config["launch"].values()]
+#     return ExecutableMetadata(installdir, launch, product_info["depots"])
 
 
 #/search/results
@@ -136,29 +165,19 @@ class SteamMetadata():
 
         return StoreResults(items=gameids)
 
-    def get_game_configuration(self, app_id: int):
+    def get_game_configuration(self, app_id: int) -> GameInfo:
         product_info: Any = self.client.get_product_info(apps=[app_id])
-        product_info = product_info["apps"][app_id]
-        return make_executable_metadata(product_info)
-
-    def get_capsule(self, app_id: int):
-        pass
-
-    def get_hero(self, app_id: int):
-        pass
-
-    def get_icon(self, app_id: int):
-        pass
-
-
-    def get_hero(self, app)
-
-
+        return product_info["apps"][app_id]
+        # return product_info
+        # product_info = product_info["apps"][app_id]
+        # pprint(product_info)
+        # return make_executable_metadata(product_info)
 
 
 if __name__ == "__main__":
     from pprint import pprint
     s = SteamMetadata()
-    pprint(s.store_search("Hades"))
+    # pprint(s.store_search("Hades"))
+    s.get_game_configuration(1145360)
          
 

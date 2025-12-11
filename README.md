@@ -32,4 +32,21 @@ https://steamcdn-a.akamaihd.net/steam/apps/APP_ID/logo.png
 https://noblesteedgames.com/blog/a-handy-guide-to-graphical-assets-on-your-steam-store-page/
 
 #TODO:
-Implementing a hash system for file downloading
+ - Implementing a hash system for file downloading
+ - Save file backup (check test.json)
+ ```
+        this return key ufs that has save file location
+
+        def get_game_configuration(self, app_id: int):
+ ```
+ - Automatic dependency download through steam depo (check test.json)
+
+ - Try all launch option until executable is found prioritise osarch=x64 (check test.json)
+
+ - Generate zip archive using thread in the background instead of when fetching
+
+
+
+
+
+
