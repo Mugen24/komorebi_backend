@@ -8,7 +8,36 @@ import textwrap
 from uuid import uuid4
 
 class Game():
-    def __init__(self, game_folder: Path) -> None:
+    def __init__(
+        self, 
+        game_folder: Path,
+        working_dir: Path,
+        executable_path: Path,
+        app_id: int | None, # may not be a steam game
+        name: str,
+        arguments: str,
+        id: int,
+    ) -> None:
+
+        self.root = game_folder
+        self.steamcli = SteamMetadata.create() 
+
+        # self.config = Config(game_folder)
+        self.working_dir = working_dir
+        self.executable_path = executable_path
+        self.app_id = app_id
+        self.name = name
+        self.arguments = arguments
+        self.id = id
+
+        if not self.config.load():
+            self.config.id = self.generate_id()
+            self.generate_config_from_steam()
+            self.config.write()
+
+
+    @staticmethod
+    def from_config(game_folder: Path):
         self.root = game_folder
         self.steamcli = SteamMetadata.create() 
         self.config = Config(game_folder)
@@ -18,12 +47,11 @@ class Game():
             self.generate_config_from_steam()
             self.config.write()
 
-
-
         
     def generate_id(self):
         return f"{uuid4().int}"
 
+    
     def generate_config_from_steam(self):
         # chose the first option return from store
         OPTION_INDEX = 0
