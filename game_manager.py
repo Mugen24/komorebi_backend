@@ -18,6 +18,8 @@ class Game():
             self.generate_config_from_steam()
             self.config.write()
 
+
+
         
     def generate_id(self):
         return f"{uuid4().int}"

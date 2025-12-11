@@ -3,13 +3,14 @@ from pathlib import Path
 from os import getenv, wait
 from dataclasses import dataclass
 from logging import Logger
-from utils.steam_types import URL
 from utils.steam_api import SteamMetadata
 from game_manager import GameManager
 from fastapi import FastAPI, Response, status
 from fastapi.responses import FileResponse 
 from shutil import make_archive
 import tempfile
+
+from utils.utils import create_zip
 
 
 
@@ -82,9 +83,12 @@ def download(id: str, response: Response):
             return FileResponse(path=zip_file)
         else:
             print("Making archive: ")
-            zip_file = make_archive(game.root / game.config.name, "zip", game.root)
-            print(f"Archive created: {zip_file}")
-            return FileResponse(path=zip_file)
+            # zip_file = make_archive(game.root / game.config.name, "zip", game.root)
+            # but the zip file in the same game folder for now
+            zip_file = create_zip(dest=game.root / f"{game.config.name}.zip", folder_to_zip=game.root)
+
+            print(f"Archive created: {zip_file.as_posix()}")
+            return FileResponse(path=zip_file.as_posix())
 
 
 

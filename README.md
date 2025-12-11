@@ -30,3 +30,6 @@ https://steamcdn-a.akamaihd.net/steam/apps/APP_ID/logo.png
 
 # steam images explaination
 https://noblesteedgames.com/blog/a-handy-guide-to-graphical-assets-on-your-steam-store-page/
+
+#TODO:
+Implementing a hash system for file downloading

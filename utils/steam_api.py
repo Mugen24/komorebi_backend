@@ -18,8 +18,6 @@ class GameID():
 class StoreResults():
     items: list[GameID]
 
-
-
 @dataclass
 class OSData():
     osarch: Optional[Literal["32", "64"]] = None
@@ -133,15 +131,29 @@ class SteamMetadata():
         gameids = []
         for item in response["items"]:
             match = re.search(r"apps\/(?P<appid>\d*)\/", item["logo"])
-            appid = match.group("appid")
-            gameids.append(GameID(app_id=int(appid), name=item["name"]))
+            app_id = match.group("appid")
+            gameids.append(GameID(app_id=int(app_id), name=item["name"]))
 
         return StoreResults(items=gameids)
 
-    def get_game_configuration(self, appid: int):
-        product_info: Any = self.client.get_product_info(apps=[appid])
-        product_info = product_info["apps"][appid]
+    def get_game_configuration(self, app_id: int):
+        product_info: Any = self.client.get_product_info(apps=[app_id])
+        product_info = product_info["apps"][app_id]
         return make_executable_metadata(product_info)
+
+    def get_capsule(self, app_id: int):
+        pass
+
+    def get_hero(self, app_id: int):
+        pass
+
+    def get_icon(self, app_id: int):
+        pass
+
+
+    def get_hero(self, app)
+
+
 
 
 if __name__ == "__main__":
