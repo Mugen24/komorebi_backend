@@ -23,7 +23,7 @@ class StoreResults():
 #----------------------------CONFIG------------------------------------------
 class OSData(TypedDict):
     osarch: NotRequired[Literal["32", "64"]]
-    oslist: NotRequired[Literal["windows"]]
+    oslist: NotRequired[Literal["windows", "macos"]]
 
 class LaunchOptions(TypedDict):
     executable: str
@@ -62,7 +62,7 @@ class Common(TypedDict):
 
 class GameInfo(TypedDict):
     common: Common
-    config: GameLaunchConfig
+    config: NotRequired[GameLaunchConfig]
     appid: str
 
 
