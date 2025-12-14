@@ -121,6 +121,12 @@ def get_hero(id: str, response: Response):
     if game is None or game.assets is None:
         response.status_code = status.HTTP_204_NO_CONTENT
         return
+
+    if not game.assets.hero_path.is_file():
+        response.status_code = status.HTTP_204_NO_CONTENT
+        return
+
+
     return FileResponse(game.assets.hero_path.as_posix())
 
 @app.get("/game/{id}/capsule")
@@ -129,7 +135,10 @@ def get_capsule(id: str, response: Response):
     if game is None or game.assets is None:
         response.status_code = status.HTTP_204_NO_CONTENT
         return
-    pass
+
+    if not game.assets.capsule_path.is_file():
+        response.status_code = status.HTTP_204_NO_CONTENT
+        return
 
     return FileResponse(game.assets.capsule_path.as_posix())
 
@@ -139,12 +148,21 @@ def get_logo(id: str, response: Response):
     if game is None or game.assets is None:
         response.status_code = status.HTTP_204_NO_CONTENT
         return
+
+    if not game.assets.logo_path.is_file():
+        response.status_code = status.HTTP_204_NO_CONTENT
+        return
+
     return FileResponse(game.assets.logo_path.as_posix())
 
 @app.get("/game/{id}/icon")
 def get_icon(id: str, response: Response):
     game = server.game_manager.get_game(id)
     if game is None or game.assets is None:
+        response.status_code = status.HTTP_204_NO_CONTENT
+        return
+
+    if not game.assets.icon_path.is_file():
         response.status_code = status.HTTP_204_NO_CONTENT
         return
 
