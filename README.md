@@ -31,6 +31,18 @@ https://steamcdn-a.akamaihd.net/steam/apps/APP_ID/logo.png
 # steam images explaination
 https://noblesteedgames.com/blog/a-handy-guide-to-graphical-assets-on-your-steam-store-page/
 
+#BUGS:
+   Minds beneath us: 1610440
+   has no named launch option but it does have 
+   an unamed lauch option that does not show up in package detail but does on steamdb
+
+   The wolf among use cannot find exe (steam game)
+
+   - smarter executae finding algo sometimes steam path is wrong because if from a different game store
+   - Look for only folder in /Games and ignore .XXX files
+
+
+
 #TODO:
  - Implementing config for non steam game  (P1)
  - Implementing a hash system for file downloading
@@ -45,7 +57,6 @@ https://noblesteedgames.com/blog/a-handy-guide-to-graphical-assets-on-your-steam
 
  - Generate zip archive using thread in the background instead of when fetching
 
- - Ignore .folder when searching for game file
  - Can probably default to option 0 when searching for game appid
 
  - Fall back directory is being prioritise, should go with any working_dir provided first

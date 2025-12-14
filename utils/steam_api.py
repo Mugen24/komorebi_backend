@@ -111,17 +111,6 @@ class SteamMetadata():
             SteamMetadata.INSTANCE = SteamMetadata()
         return SteamMetadata.INSTANCE
 
-    # def get_game_media(self, app_id: int) -> None:
-    #     #TODO: error handling
-    #     response = requests.get(
-    #         f"{SteamMetadata.ENDPOINT}/api/appdetails",
-    #         {
-    #             "appids": app_id,
-    #             "filters": "type,name,steam_appid,header_image,capsule_image,capsule_imagev5"
-    #         }
-    #     )
-    #     return response.json()
-
     def store_search(self, term: str, cc="US", l="english"):
         #TODO: error handling
         # response = requests.get(
@@ -172,6 +161,7 @@ class SteamMetadata():
         # product_info = product_info["apps"][app_id]
         # pprint(product_info)
         # return make_executable_metadata(product_info)
+
 
 
 if __name__ == "__main__":
