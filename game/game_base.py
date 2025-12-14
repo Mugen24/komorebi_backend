@@ -13,10 +13,11 @@ class SteamShortCut(TypedDict):
     executable_path: str
     name: str
     arguments: str
+    id: str
+    
 
 class GameConfig(SteamShortCut):
     config_type: Literal["steam", "manual"]
-    id: str
 
 
 class GameAssets(ABC):
@@ -155,6 +156,7 @@ class AbstractGame(ABC):
             "executable_path": self.executable_path.as_posix(),
             "name": self.name,
             "arguments": self.arguments,
+            "id": self.id
         }
 
     def save_config(self):

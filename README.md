@@ -69,3 +69,10 @@ https://noblesteedgames.com/blog/a-handy-guide-to-graphical-assets-on-your-steam
 
  - Added a stub for evaluated game that fails and don't need to be retry
 
+ - Give a way to change game folder name on scan and rerun it again with steam
+
+
+ #DOCKER 
+ docker build -t "komorebi:latest" .
+ docker run -p 9543:9543 -v /media/mugen/BackupL/Games:/opt/komorebi/config/games --name "m2" -it "komorebi:latest"
+
