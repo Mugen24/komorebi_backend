@@ -129,6 +129,7 @@ class SteamGame(AbstractGame):
         
         # get the the default launch config
         if game_config.get("config") is None or game_config["config"].get("launch") is None:
+            print(game_config)
             raise Exception(f"Game: {app_name} has no launch config")
 
 
