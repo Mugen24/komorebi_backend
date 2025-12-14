@@ -123,7 +123,7 @@ class AbstractGame(ABC):
         self.name = name
         self.arguments = arguments
 
-        self.games_folder = game_folder
+        self.game_folder = game_folder
         self.config_path = game_folder / "config.json"
         self.assets = assets
 

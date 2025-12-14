@@ -27,6 +27,7 @@ RUN mkdir -p /opt/komorebi/config
 RUN mkdir -p /opt/komorebi/config/games
 
 ENV PORT=9543
+ENV GAME_PATH="/opt/komorebi/config/games"
 
 # RUN fastapi run main.py --port $PORT
 EXPOSE $PORT

@@ -91,7 +91,7 @@ def read_root():
 def list_game():
     games = server.game_manager.list_games()
     return {
-        "games": [game.to_json() for game in games]
+        "games": [game.create_steam_shortcut() for game in games]
     }
  
 @app.get("/download/{id}")
@@ -102,7 +102,7 @@ def download(id: str, response: Response):
         response.status_code = status.HTTP_204_NO_CONTENT
         return {}
     else:
-        zip_file = game.root / f"{game.name}.zip"
+        zip_file = game.game_folder / f"{game.name}.zip"
         if zip_file.exists() and zip_file.is_file():
             print(f"Zip file found at: {zip_file}")
             return FileResponse(path=zip_file)
@@ -110,7 +110,7 @@ def download(id: str, response: Response):
             print("Making archive: ")
             # zip_file = make_archive(game.root / game.config.name, "zip", game.root)
             # but the zip file in the same game folder for now
-            zip_file = create_zip(dest=game.root / f"{game.name}.zip", folder_to_zip=game.root)
+            zip_file = create_zip(dest=game.game_folder / f"{game.name}.zip", folder_to_zip=game.game_folder)
             print(f"Archive created: {zip_file.as_posix()}")
             return FileResponse(path=zip_file.as_posix())
 

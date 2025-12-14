@@ -19,7 +19,7 @@
       ];
       shellHook = ''
         export DEBUG=1;
-        # export GAME_PATH=/home/mugen/Programing/decky_env/test_game;
+        export GAME_PATH=/home/mugen/Programing/decky_env/test_game;
         export LD_LIBRARY_PATH=${pkgs.stdenv.cc.cc.lib}/lib;
       '';
     };
