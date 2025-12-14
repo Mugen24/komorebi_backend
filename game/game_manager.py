@@ -28,7 +28,8 @@ class GameManager():
                 try: 
                     game = GameManager.GAME_READERS[config["config_type"]].from_config(game_folder, config_file)
                 except KeyError as e: 
-                    print(f"{game_folder.stem} config_type {config['config_type']} not implemented")
+                    print(f"{game_folder.stem}")
+                    # print(f"{game_folder.stem} config_type {config['config_type']} not implemented")
                     continue
             else:
                 for key, reader in GameManager.GAME_READERS.items():
