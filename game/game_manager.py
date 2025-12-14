@@ -22,7 +22,7 @@ class GameManager():
 
             game: AbstractGame | None = None
 
-            if config_file.exists() and config_file.is_file():
+            if False and config_file.exists() and config_file.is_file():
                 config: GameConfig = json.loads(config_file.read_text())
                 print(f"Config found at {config_file}")
                 try: 
