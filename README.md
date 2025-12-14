@@ -32,6 +32,7 @@ https://steamcdn-a.akamaihd.net/steam/apps/APP_ID/logo.png
 https://noblesteedgames.com/blog/a-handy-guide-to-graphical-assets-on-your-steam-store-page/
 
 #TODO:
+ - Implementing config for non steam game  (P1)
  - Implementing a hash system for file downloading
  - Save file backup (check test.json)
  ```
@@ -41,12 +42,19 @@ https://noblesteedgames.com/blog/a-handy-guide-to-graphical-assets-on-your-steam
  ```
  - Automatic dependency download through steam depo (check test.json)
 
- - Try all launch option until executable is found prioritise osarch=x64 (check test.json)
 
  - Generate zip archive using thread in the background instead of when fetching
 
+ - Ignore .folder when searching for game file
+ - Can probably default to option 0 when searching for game appid
 
+ - Fall back directory is being prioritise, should go with any working_dir provided first
 
+ - Threading: 
+    - zip process
+    - game look up 
+    - image downloading 
+    - etc
 
-
+ - Added a stub for evaluated game that fails and don't need to be retry
 

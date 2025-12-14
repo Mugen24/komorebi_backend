@@ -1,9 +1,10 @@
 from pathlib import Path
 import requests
+from game.steam_game import SteamConfig
 from utils.steam_api import GameInfo, SteamMetadata
 
 class SteamAssets():
-   def __init__(self, app_id: int, game_folder: Path, steam_config: GameInfo, auto_fetch_assets: bool = True):
+   def __init__(self, app_id: int, game_folder: Path, steam_config: SteamConfig, auto_fetch_assets: bool = True):
       self.steam_info = steam_config
       self.app_id = app_id
       self.library_assets = steam_config["common"]["library_assets_full"]

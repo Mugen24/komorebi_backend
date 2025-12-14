@@ -4,18 +4,19 @@ from os import getenv, wait
 from dataclasses import dataclass
 from logging import Logger
 from utils.steam_api import SteamMetadata
-from game_manager import GameManager
+from os import mkdir
 from fastapi import FastAPI, Response, status
 from fastapi.responses import FileResponse 
 from shutil import make_archive
 import tempfile
+from game.game_manager import GameManager
 
 from utils.utils import create_zip
 
 
 
-DEBUG = 1
-GAME_LIBRARY_FOLDER = Path(getenv("GAME_PATH"))
+# DEBUG = 1
+# GAME_LIBRARY_FOLDER = Path(getenv("GAME_PATH"))
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +26,7 @@ class KomorebiServer():
     DEFAULT_SAVE_PATH: Path
     def __init__(self) -> None:
         SERVER_ROOT = getenv("SEVER_ROOT")
-        self.SERVER_ROOT = Path(SERVER_ROOT) if SERVER_ROOT else Path("~/.komorebi")
+        self.SERVER_ROOT = Path(SERVER_ROOT) if SERVER_ROOT else Path("~/.komorebi").expanduser()
 
         GAME_PATH = getenv("GAME_PATH")
         self.GAME_PATH = Path(GAME_PATH) if GAME_PATH else self.SERVER_ROOT / "games"
@@ -33,8 +34,14 @@ class KomorebiServer():
         SAVE_PATH = getenv("SAVE_PATH")
         self.SAVE_PATH = Path(SAVE_PATH) if SAVE_PATH else self.SERVER_ROOT / "saves"
 
-        if DEBUG:
-            self.GAME_PATH = GAME_LIBRARY_FOLDER
+        # if DEBUG:
+        #     self.GAME_PATH = GAME_LIBRARY_FOLDER
+
+        root = Path("~/.komorebi").expanduser()
+        root.mkdir(exist_ok=True)
+        (root / "games").mkdir(exist_ok=True)
+        (root / "saves").mkdir(exist_ok=True)
+        
 
         self.game_manager = GameManager(self.GAME_PATH)
 
