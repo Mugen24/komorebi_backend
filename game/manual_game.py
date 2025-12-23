@@ -34,7 +34,7 @@ class ManualGame(AbstractGame):
         # executable_path = Path(input("executable_path: "))
         # name = input("name: ")
 
-        default_name = game_path.parent.name
+        default_name = game_path.name
         print(f"Default Name: {default_name}")
         name = input("Enter name [enter=default]:")
         if name == "":
