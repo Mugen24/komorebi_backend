@@ -28,7 +28,7 @@ class GameManager():
 
             cache_config = os.getenv("CACHE_CONFIG", 1)
 
-            if cache_config and config_file.exists() and config_file.is_file():
+            if cache_config == 1 and config_file.exists() and config_file.is_file():
                 config: GameConfig = json.loads(config_file.read_text())
                 print(f"Config found at {config_file}")
                 try: 
