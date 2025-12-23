@@ -34,6 +34,10 @@ class KomorebiServer():
         SAVE_PATH = getenv("SAVE_PATH")
         self.SAVE_PATH = Path(SAVE_PATH) if SAVE_PATH else self.SERVER_ROOT / "saves"
 
+        ARCHIVE_PATH = getenv("ARCHIVE_PATH")
+        self.ARCHIVE_PATH = Path(ARCHIVE_PATH) if ARCHIVE_PATH else self.SERVER_ROOT / "archives"
+
+
         # if DEBUG:
         #     self.GAME_PATH = GAME_LIBRARY_FOLDER
 
@@ -41,10 +45,10 @@ class KomorebiServer():
         root.mkdir(exist_ok=True)
         (root / "games").mkdir(exist_ok=True)
         (root / "saves").mkdir(exist_ok=True)
+        (root / "archives").mkdir(exist_ok=True)
         
 
-        self.game_manager = GameManager(self.GAME_PATH)
-
+        self.game_manager = GameManager(self.GAME_PATH, self.ARCHIVE_PATH)
 
 
     @staticmethod
@@ -54,7 +58,7 @@ class KomorebiServer():
         return KomorebiServer.instance
 
 
-from fastapi.middleware.cors import CORSMiddleware
+# from fastapi.middleware.cors import CORSMiddleware
 
 server = KomorebiServer()
 app = FastAPI()
@@ -97,22 +101,32 @@ def list_game():
 @app.get("/download/{id}")
 def download(id: str, response: Response):
     print("Download")
-    game = server.game_manager.get_game(id)
-    if game is None:
+    # game = server.game_manager.get_game(id)
+    # if game is None:
+    #     response.status_code = status.HTTP_204_NO_CONTENT
+    #     return {}
+    # else:
+    #     zip_file = game.game_folder / f"{game.name}.zip"
+    #     if zip_file.exists() and zip_file.is_file():
+    #         print(f"Zip file found at: {zip_file}")
+    #         return FileResponse(path=zip_file)
+    #     else:
+    #         print("Making archive: ")
+    #         # zip_file = make_archive(game.root / game.config.name, "zip", game.root)
+    #         # but the zip file in the same game folder for now
+    #         zip_file = create_zip(dest=game.game_folder / f"{game.name}.zip", folder_to_zip=game.game_folder)
+
+    #         print(f"Archive created: {zip_file.as_posix()}")
+    #         return FileResponse(path=zip_file.as_posix())
+    zip_file = server.game_manager.download_game(id)
+    if zip_file is None:
         response.status_code = status.HTTP_204_NO_CONTENT
         return {}
     else:
-        zip_file = game.game_folder / f"{game.name}.zip"
-        if zip_file.exists() and zip_file.is_file():
-            print(f"Zip file found at: {zip_file}")
-            return FileResponse(path=zip_file)
-        else:
-            print("Making archive: ")
-            # zip_file = make_archive(game.root / game.config.name, "zip", game.root)
-            # but the zip file in the same game folder for now
-            zip_file = create_zip(dest=game.game_folder / f"{game.name}.zip", folder_to_zip=game.game_folder)
-            print(f"Archive created: {zip_file.as_posix()}")
-            return FileResponse(path=zip_file.as_posix())
+        return FileResponse(path=zip_file.as_posix())
+
+
+
 
 
 @app.get("/game/{id}/hero")

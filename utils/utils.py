@@ -26,9 +26,9 @@ def _recursive_zip(fp, path, root_folder):
 def create_zip(dest: Path, folder_to_zip: Path):
     # needed to keep the directory context relative to the root folder
     chdir(folder_to_zip)
+    print(f"zipping: {folder_to_zip}")
 
     with zipfile.ZipFile(dest, "w") as fp:
-        print(f"zipping: {folder_to_zip}")
         _recursive_zip(fp, path=folder_to_zip, root_folder=folder_to_zip)
 
     return dest
@@ -47,6 +47,7 @@ def download():
     with open("SIGNALIS3.zip", "wb") as fp:
         while chunk := resp.read(chunk_size):
             fp.write(chunk)
+
 
 
 def locate_launch_config(game_folder: Path, launch_option: LaunchOptions):
@@ -74,7 +75,7 @@ def locate_launch_config(game_folder: Path, launch_option: LaunchOptions):
     # use workingdir from steam 
     # if not default to the parent folder of exe
     try: 
-        working_dir = launch_option.get("workingdir")
+        working_dir = launch_option.get("workingdir", "")
         working_dir = working_dir.replace("\\", "/")
         working_dir = [dir for dir in game_folder.glob(f"**/{working_dir}")][0]
         print(f"Working dir found {working_dir}")

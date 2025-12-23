@@ -30,13 +30,33 @@ class ManualGame(AbstractGame):
 
     @classmethod
     def create(cls, game_path: Path) -> "ManualGame":
+        # working_dir = Path(input("working_dir: "))
+        # executable_path = Path(input("executable_path: "))
+        # name = input("name: ")
 
-        working_dir = Path(input("working_dir: "))
-        executable_path = Path(input("executable_path: "))
-        name = input("name: ")
+        default_name = game_path.parent.name
+        print(f"Default Name: {default_name}")
+        name = input("Enter name [enter=default]:")
+        if name == "":
+            name = default_name
+
+
+        executable_choices = []
+        for index, exe in enumerate(game_path.glob("**/*.exe")):
+            print(f"{index}: {exe}")
+            executable_choices.append(Path(exe))
+        executable_index = int(input("executable_path: "))
+
+        executable_path = executable_choices[executable_index]
+        working_dir = executable_path.parent
         game_folder = game_path
+
+        executable_path = executable_path.relative_to(game_folder)
+        working_dir = working_dir.relative_to(game_folder)
+
         id = ManualGame.generate_id()
         assets = ManualGameAssets(game_folder=game_path)
+
 
         return cls(id=id, working_dir=working_dir, executable_path=executable_path, name=name, game_folder=game_folder, arguments="", assets=assets)
 
