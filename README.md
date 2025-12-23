@@ -74,5 +74,6 @@ https://noblesteedgames.com/blog/a-handy-guide-to-graphical-assets-on-your-steam
 
  #DOCKER 
  docker build -t "komorebi:latest" .
- docker run -p 9543:9543 -v /media/mugen/BackupL/Games:/opt/komorebi/config/games --name "m2" -it "komorebi:latest"
+ docker run -p 9543:9543 -e CACHE_CONFIG=0 -v /media/mugen/BackupL/Games:/opt/komorebi/config/games --name "m2" -it "komorebi:latest"
 
+CACHE_CONFIG=1
