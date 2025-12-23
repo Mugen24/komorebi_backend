@@ -26,7 +26,7 @@ class GameManager():
             game: AbstractGame | None = None
 
 
-            cache_config = os.getenv("CACHE_CONFIG", 1)
+            cache_config = int(os.getenv("CACHE_CONFIG", 1))
 
             if cache_config == 1 and config_file.exists() and config_file.is_file():
                 config: GameConfig = json.loads(config_file.read_text())
