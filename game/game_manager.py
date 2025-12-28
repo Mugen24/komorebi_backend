@@ -66,7 +66,7 @@ class GameManager():
         print(f"Cannot find game of id: {id}")
 
     def get_game_from_archive(self, game: AbstractGame):
-        game_archive = self.archive_folder / f"{game.name}.zip"
+        game_archive = self.archive_folder / f"{game.game_folder.stem}.zip"
         if game_archive.exists():
             print(f"archive: {game_archive} exists")
             return game_archive
@@ -76,7 +76,7 @@ class GameManager():
         if game is not None:
             zip_file = self.get_game_from_archive(game)
             if zip_file is None:
-                zip_file = create_zip(dest=self.archive_folder / f"{game.name}.zip", folder_to_zip=game.game_folder)
+                zip_file = create_zip(dest=self.archive_folder / f"{game.game_folder.stem}.zip", folder_to_zip=game.game_folder)
 
             return zip_file
 
