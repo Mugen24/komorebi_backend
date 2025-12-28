@@ -25,7 +25,7 @@ class KomorebiServer():
     DEFAULT_GAME_PATH: Path
     DEFAULT_SAVE_PATH: Path
     def __init__(self) -> None:
-        SERVER_ROOT = getenv("SEVER_ROOT")
+        SERVER_ROOT = getenv("SERVER_ROOT")
         self.SERVER_ROOT = Path(SERVER_ROOT) if SERVER_ROOT else Path("~/.komorebi").expanduser()
 
         GAME_PATH = getenv("GAME_PATH")

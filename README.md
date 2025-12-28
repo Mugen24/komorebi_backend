@@ -71,6 +71,8 @@ https://noblesteedgames.com/blog/a-handy-guide-to-graphical-assets-on-your-steam
 
  - Give a way to change game folder name on scan and rerun it again with steam
 
+ - Dynamically determine optimal download speed using network + disk read
+
 
  #DOCKER 
  docker build -t "komorebi:latest" .

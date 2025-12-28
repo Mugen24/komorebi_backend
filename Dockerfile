@@ -23,11 +23,13 @@ ENV PATH="/opt/komorebi/backend/bin:$PATH"
 RUN pip3 install -r requirements.txt
 
 
+RUN mkdir -p /opt/komorebi/data
 RUN mkdir -p /opt/komorebi/config
 RUN mkdir -p /opt/komorebi/config/games
 
 ENV PORT=9543
 ENV GAME_PATH="/opt/komorebi/config/games"
+ENV SERVER_ROOT="/opt/komorebi/data"
 
 # RUN fastapi run main.py --port $PORT
 EXPOSE $PORT
