@@ -41,7 +41,8 @@ class KomorebiServer():
         # if DEBUG:
         #     self.GAME_PATH = GAME_LIBRARY_FOLDER
 
-        root = Path("~/.komorebi").expanduser()
+        # root = Path("~/.komorebi").expanduser()
+        root = self.SERVER_ROOT
         root.mkdir(exist_ok=True)
         (root / "games").mkdir(exist_ok=True)
         (root / "saves").mkdir(exist_ok=True)
