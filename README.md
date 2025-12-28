@@ -77,3 +77,10 @@ https://noblesteedgames.com/blog/a-handy-guide-to-graphical-assets-on-your-steam
  docker run -p 9543:9543 -e CACHE_CONFIG=0 -v /media/mugen/BackupL/Games:/opt/komorebi/config/games --name "m2" -it "komorebi:latest"
 
 CACHE_CONFIG=1
+
+# Give up on multi threading download hdd limited + overhead even on GIL disabled python3.14
+# Make endpoint async io may increase speed  
+# Improve compression algo zip_lzma is bester
+# allowzip64
+
+

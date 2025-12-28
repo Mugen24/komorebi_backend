@@ -13,9 +13,8 @@ def find_file(file_target: str, source_folder: Path):
 def _recursive_zip(fp, path, root_folder):
 
     for f in path.iterdir():
-        if f.suffix == ".zip":
-            continue
-
+        # if f.suffix == ".zip":
+        #     continue
         print(f"zipping: {f}")
         # cannot see f relative to root unless cwd is in root
         fp.write(f.relative_to(root_folder))

@@ -123,7 +123,9 @@ def download(id: str, response: Response):
         response.status_code = status.HTTP_204_NO_CONTENT
         return {}
     else:
-        return FileResponse(path=zip_file.as_posix())
+        file = FileResponse(path=zip_file.as_posix())
+        file.chunk_size = 1024 * 1024
+        return file
 
 
 
