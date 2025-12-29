@@ -74,11 +74,21 @@ https://noblesteedgames.com/blog/a-handy-guide-to-graphical-assets-on-your-steam
  - Dynamically determine optimal download speed using network + disk read
 
 
- #DOCKER 
- docker build -t "komorebi:latest" .
- docker run -p 9543:9543 -e CACHE_CONFIG=0 -v /media/mugen/BackupL/Games:/opt/komorebi/config/games --name "m2" -it "komorebi:latest"
+
+#DOCKER
+docker build -t "komorebi:latest" .
+docker run -p 9543:9543 -e CACHE_CONFIG=0 -v /media/mugen/BackupL/Games:/opt/komorebi/config/games --name "m2" -it "komorebi:latest"
+docker run -p 9543:9543 -e CACHE_CONFIG=1 \
+       -v /media/mugen/BackupL/Games:/opt/komorebi/config/games \
+       -v /media/mugen/BackupL/komorebi/:/opt/komorebi/data \
+       --name "m2" -it "komorebi:latest"
 
 CACHE_CONFIG=1
+
+
+
+
+
 
 # Give up on multi threading download hdd limited + overhead even on GIL disabled python3.14
 # Make endpoint async io may increase speed  
