@@ -81,7 +81,7 @@ docker run -p 9543:9543 -e CACHE_CONFIG=0 -v /media/mugen/BackupL/Games:/opt/kom
 docker run -p 9543:9543 -e CACHE_CONFIG=1 \
        -v /media/mugen/BackupL/Games:/opt/komorebi/config/games \
        -v /media/mugen/BackupL/komorebi/:/opt/komorebi/data \
-       --memory="5g"
+       --memory="5g" \ 
        --name "m2" -it "komorebi:latest"
 
 CACHE_CONFIG=1
