@@ -125,7 +125,7 @@ def download(id: str, response: Response):
         return {}
     else:
         file = FileResponse(path=zip_file.as_posix())
-        file.chunk_size = 10**6 * 1000 * 3 #1gb
+        file.chunk_size = 1024 * 1024 * 1000 #1gb
 
         return file
 
